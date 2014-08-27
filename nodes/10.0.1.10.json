@@ -1,0 +1,52 @@
+{
+  "name": "server-name",
+  "chef_environment": "_default",
+  "normal": {
+    "tags": [
+
+    ],
+    "java": {
+      "install_flavor": "openjdk",
+      "jdk_version": "7"
+    },
+    "elasticsearch": {
+      "version": "1.2.2",
+      "cluster": {
+        "name": "sspe"
+      },
+      "plugins": {
+        "elasticsearch/elasticsearch-mapper-attachments": {
+          "version": "2.3.0"
+        },
+        "com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb": {
+          "version": "2.0.1"
+        },
+        "mobz/elasticsearch-head": {
+        },
+        "royrusso/elasticsearch-HQ": {
+        },
+        "elasticsearch/elasticsearch-lang-javascript": {
+          "version": "2.1.0"
+        }
+      }
+    },
+    "kibana": {
+      "config": {
+        "elasticsearch": "http://localhost:9200",
+        "default_route": "/dashboard/file/guided.json"
+      },
+      "kibana": {
+        "web_dir": "/opt/kibana/current"
+      }
+    }
+  },
+  "run_list": [
+    "recipe[java]",
+    "recipe[elasticsearch]",
+    "recipe[elasticsearch::plugins]",
+    "recipe[kibana::install]"
+  ],
+  "automatic": {
+    "ipaddress": "10.0.1.10"
+  }
+}
